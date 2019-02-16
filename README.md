@@ -43,3 +43,4 @@ BlockChain for League.This is a public test version for everyone to use and test
 * + Run `./CLI -h` to see the help.
 * + Run `./CLI -f new` to register as a new user.
 * + Run `./CLI -f start` to run the client,follow the message to operate.
+## [How to write 'script'/'smartcontract'/'chaincode'](https://github.com/chenjie199234/LeagueChainTest/blob/master/Web/example.lua)
