@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>mainpage</title>
+		<style type="text/css">
+			*{
+				margin:0px;
+				padding:0px;
+			}
+			.head{
+				width:100%;
+				height:180px;
+				background-color:rgb(75,95,115);
+			}
+			.body{
+				width:100%;
+				height:700px;
+				clear:both;
+				background-color:rgb(230,230,230);
+				color:rgb(75,95,115);
+				white-space:nowrap;
+				overflow-y:auto;
+				overflow-x:hidden;
+			}
+			.foot{
+				width:100%;
+				height:150px;
+				background-color:rgb(75,95,115);
+				color:white;
+			}
+			#headtitle{
+				width:100%;
+				height:180px;
+				float:left;
+			}
+			#headtitle a{
+				float:left;
+				color:white;
+				text-decoration:none;
+			}
+			#footaddr{
+				width:25%;
+				height:150px;
+				float:left;
+			}
+			#footicon{
+				width:50%;
+				height:150px;
+				float:left;
+			}
+			#footabout{
+				width:25%;
+				height:150px;
+				float:left;
+			}
+			#footabout a{
+				color:white;
+				text-decoration:none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="head">
+			<div id="headtitle">
+				<a id="home" target="_blank">
+					<p style="font-size:50px;padding-left:20px;padding-top:5px;">
+						<strong>联盟链</strong>
+					</p>
+					<p style="font-size:20px;padding-left:20px;font-style:italic;">
+						<strong>自主开发,代码可控,为联盟集群设计,完善的权限控制<br/>区块链技术,数据不可篡改,安全可信</strong>
+					</p>
+				</a>
+				<script>
+					var e=document.getElementById("home");
+					e.href=document.location.protocol+"//"+document.location.hostname+(document.location.port?(":"+document.location.port):"");
+				</script>
+			</div>
+		</div>
+		<div class="body">
+			<h1 style="text-align:center">人才需求</h1>
+			<p style="text-align:center;font-size:20px;"><b>目前项目在起步阶段，需要有能力的合伙人，以下岗位无薪资，作为创始成员加入</b></p>
+			<p style="text-align:center;font-size:20px;"><b>请将简历投递至底部联系方式的邮箱，写明具体岗位，如果是全栈请写明</b></p>
+			<p style="text-indent:5%;font-size:25px;border-top:1px solid rgb(75,95,115);"><b>跨平台PC客户端开发：</b></p>
+			<p style="text-indent:5%">职责：</p>
+			<p style="text-indent:5%">1.开发跨平台的PC客户端，包括win，mac，linux</p>
+			<p style="text-indent:5%">2.作为客户端开发和维护的领导者</p>
+			<p style="text-indent:5%">要求：</p>
+			<p style="text-indent:5%">1.熟练使用跨平台开发框架，QT，Wxwidgets等</p>
+			<p style="text-indent:5%">2.熟练掌握框架的开发语言以及工具，QT：C++，QTCreator等，Wxwidgets：C++，Python，codeblocks等</p>
+			<p style="text-indent:5%">3.熟练掌握不同操作系统的使用，将代码部署到对应操作系统</p>
+			<p style="text-indent:5%">4.对tcp，udp，http，https，websocket等网络协议有深刻的理解</p>
+			<p style="text-indent:5%">5.熟练掌握protobuf，json等序列化反序列化工具</p>
+			<p style="text-indent:5%">6.对openssl库有一定了解，熟练使用其中的rsa，ecdsa等非对称加密算法</p>
+			<p style="text-indent:5%">7.书写代码条理清晰，有一定的代码架构能力，模块功能明确，调用逻辑清晰明了</p>
+			<p style="text-indent:5%">8.有耐心有钻研精神，能独立完成客户端的开发工作，能带领他人指导他人完成相应工作</p>
+			<p style="text-indent:5%;font-size:25px;border-top:1px solid rgb(75,95,115);"><b>安卓开发：</b></p>
+			<p style="text-indent:5%">职责：</p>
+			<p style="text-indent:5%">1.开发安卓客户端</p>
+			<p style="text-indent:5%">2.作为安卓客户端开发和维护的领导者</p>
+			<p style="text-indent:5%">要求：</p>
+			<p style="text-indent:5%">1.熟练掌握java，C/C++</p>
+			<p style="text-indent:5%">2.熟练使用eclipse，android studio等开发工具</p>
+			<p style="text-indent:5%">3.对tcp，udp，http，https，websocket等网络协议有深刻的理解</p>
+			<p style="text-indent:5%">4.熟练掌握protobuf，json等序列化反序列化工具</p>
+			<p style="text-indent:5%">5.对openssl有一定的了解，熟练使用rsa，ecdsa等非对称加密算法</p>
+			<p style="text-indent:5%">6.有过上线项目开发经验</p>
+			<p style="text-indent:5%;font-size:25px;border-top:1px solid rgb(75,95,115);"><b>IOS开发：</b></p>
+			<p style="text-indent:5%">职责：</p>
+			<p style="text-indent:5%">1.开发IOS客户端</p>
+			<p style="text-indent:5%">2.作为IOS客户端开发和维护的领导者</p>
+			<p style="text-indent:5%">要求：</p>
+			<p style="text-indent:5%">1.熟练掌握C/C++，OC，Swift等开发语言</p>
+			<p style="text-indent:5%">2.熟练使用xcode，UIKit等工具</p>
+			<p style="text-indent:5%">3.对tcp，udp，http，https，websocket等网络协议有深刻的理解</p>
+			<p style="text-indent:5%">4.熟练掌握protobuf，json等序列化反序列化工具</p>
+			<p style="text-indent:5%">5.对openssl有一定的了解，熟练使用rsa，ecdsa等非对称加密算法</p>
+			<p style="text-indent:5%">6.熟悉IOS的开发流程，包括发布上线流程</p>
+			<p style="text-indent:5%">7.有过上线项目开发经验</p>
+			<p style="text-indent:5%;font-size:25px;border-top:1px solid rgb(75,95,115);"><del><b>WEB前端开发：</b></del></p>
+			<p style="text-indent:5%">职责：</p>
+			<p style="text-indent:5%">1.重构，美化，完善当前网站</p>
+			<p style="text-indent:5%">要求：</p>
+			<p style="text-indent:5%">1.熟练掌握html5，css3，js</p>
+			<p style="text-indent:5%">2.熟练使用主流js框架</p>
+			<p style="text-indent:5%">3.熟练掌握http，https，websocket，ajax等通信方式，与服务端完成数据交互</p>
+			<p style="text-indent:5%">4.有耐心有钻研精神，能独立完成网站前端的开发工作</p>
+			<p style="text-indent:5%">5.加分项：熟练ps，il等图片ui制作软件，能够设计漂亮的web界面</p>
+		</div>
+		<div class="foot">
+			<div id="footaddr">
+				<address style="margin-left:20px;margin-top:10px;">
+					<strong>企鹅:  517464047</strong><br/>
+					<strong>邮箱:  517464047@qq.com</strong><br/>
+					<strong>电话:  17751434337</strong><br/>
+					<strong>地址:  江苏省苏州市相城区</strong><br/>
+					<strong>github:暂不开源</strong><br/>
+				</address>
+			</div>
+			<div id="footicon">
+				<canvas id="icon" width=300px height=150px style="position:absolute;left:0;right:0;margin:auto;"></canvas>
+				<script>
+					var c=document.getElementById("icon")
+					var ctx=c.getContext("2d");
+					var g=ctx.createLinearGradient(0,0,c.width,0);
+					g.addColorStop("0","pink");
+					g.addColorStop("0.5","white");
+					g.addColorStop("1.0","magenta");
+					ctx.strokeStyle=g;
+					ctx.lineWidth=4;
+					ctx.strokeRect(0,0,300,150);
+					ctx.arc(150,75,70,0,2*Math.PI);
+					ctx.stroke();
+					ctx.textAlign='center';
+					ctx.textBaseline='middle';
+					ctx.lineWidth=1;
+					ctx.font='40px bold';
+					ctx.strokeText("盟",150,55);
+					ctx.strokeText("L e a g u e",150,95);
+				</script>
+			</div>
+			<div id="footabout">
+				<ul style="margin-top:10px;list-style-type:none;">
+					<li style="text-align:center;"><a href="./law"><strong>法律声明</strong></a></li>
+					<li style="text-align:center;"><a href="./about"><strong>关于我们</strong></a></li>
+					<li style="text-align:center;"><a href="./join"><strong>加入我们</strong></a></li>
+					<li style="text-align:center;"><strong></strong></li>
+					<li style="text-align:center;"><strong></strong></li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>

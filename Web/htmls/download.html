@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>download</title>
+		<script>
+			function createRadiusRect(c,x,y,w,h,r,text){
+				c.lineWidth=2;
+				c.strokeStyle="rgb(75,95,115)";
+				c.fillStyle="rgb(75,95,115)";
+				c.beginPath();
+				c.moveTo(x+r,y);
+				c.arcTo(x+w,y,x+w,y+h,r);
+				c.arcTo(x+w,y+h,x,y+h,r);
+				c.arcTo(x,y+h,x,y,r);
+				c.arcTo(x,y,x+w,y,r);
+				c.closePath()
+				c.stroke();
+				c.textAlign='center';
+				c.textBaseline='middle';
+				c.lineWidth=1;
+				c.font='20px bold';
+				c.fillText(text,(w-x)/2,(h-y)/2);
+			}
+			function createLine(c,w,h){
+				c.fillStyle="rgb(75,95,115)";
+				c.arc(w/2,5,5,0,2*Math.PI);
+				c.arc(w/2,h-5,5,0,2*Math.PI);
+				c.fill();
+				c.strokeStyle="rgb(75,95,115)";
+				c.lineWidth=2;
+				c.beginPath();
+				c.moveTo(w/2,0);
+				c.lineTo(w/2,h);
+				c.closePath();
+				c.stroke();
+			}
+		</script>
+		<style type="text/css">
+			*{
+				margin:0px;
+				padding:0px;
+			}
+			.head{
+				width:100%;
+				height:180px;
+				background-color:rgb(75,95,115);
+			}
+			.body{
+				width:100%;
+				height:700px;
+				clear:both;
+				background-color:rgb(230,230,230);
+			}
+			.foot{
+				width:100%;
+				height:150px;
+				background-color:rgb(75,95,115);
+				color:white;
+			}
+			#headtitle{
+				width:100%;
+				height:180px;
+				float:left;
+			}
+			#headtitle a{
+				float:left;
+				color:white;
+				text-decoration:none;
+			}
+			.bodycontainer{
+				float:left;
+				width:20%;
+				height:100%;
+				background-color:rgb(230,230,230);
+				text-align:center;
+			}
+			.t{
+				width:100%;
+				height:8%;
+				border-bottom-style:solid;
+				border-bottom-color:rgb(75,95,115);
+			}
+			.b{
+				width:100%;
+				height:92%;
+			}
+			.bodycontainer:hover{
+				background-color:rgb(210,210,210);
+			}
+			#ca:hover,#wc:hover,#ws:hover,#lc:hover,#ls:hover,#mc:hover,#ms:hover,#a:hover,#i:hover{
+				cursor:pointer;
+				background-color:rgba(153,218,255,0.5);
+			}
+			#footaddr{
+				width:25%;
+				height:150px;
+				float:left;
+			}
+			#footicon{
+				width:50%;
+				height:150px;
+				float:left;
+			}
+			#footabout{
+				width:25%;
+				height:150px;
+				float:left;
+			}
+			#footabout a{
+				color:white;
+				text-decoration:none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="head">
+			<div id="headtitle">
+				<a id="home" target="_blank">
+					<p style="font-size:50px;padding-left:20px;padding-top:5px;">
+						<strong>联盟链</strong>
+					</p>
+					<p style="font-size:20px;padding-left:20px;font-style:italic;">
+						<strong>自主开发,代码可控,为联盟集群设计,完善的权限控制<br/>区块链技术,数据不可篡改,安全可信</strong>
+					</p>
+				</a>
+				<script>
+					var e=document.getElementById("home");
+					e.href=document.location.protocol+"//"+document.location.hostname+(document.location.port?(":"+document.location.port):"");
+				</script>
+			</div>
+		</div>
+		<div class="body">
+			<div class="bodycontainer">
+				<div class="t">
+					<h1>Tools</h1>
+				</div>
+				<div class="b">
+					<div style="width:100%;">
+						<canvas id="tools" width="200px"></canvas>
+						<script>
+							var rnum=Math.round(Math.random()*70)+15;
+							var c=document.getElementById("tools");
+							c.height=700*0.92*rnum/100;
+							var ctx=c.getContext("2d");
+							createLine(ctx,c.width,c.height);
+						</script>
+					</div>
+					<div style="width:100%;">
+						<canvas id="ca" width="180px" height="70px"></canvas><br/>
+						<script>
+							var c=document.getElementById("ca");
+							var ctx=c.getContext("2d");
+							createRadiusRect(ctx,0,0,180,70,10,"caPubkey");
+							c.onclick=function(){
+								self.open("../download/ca");
+							}
+						</script>
+					</div>
+				</div>
+			</div>
+			<div class="bodycontainer">
+				<div class="t">
+					<h1>Windows</h1>
+				</div>
+				<div class="b">
+					<div style="width:100%;">
+						<canvas id="windows" width="200px"></canvas>
+						<script>
+							var rnum=Math.round(Math.random()*55)+15;
+							var c=document.getElementById("windows");
+							c.height=700*0.92*rnum/100;
+							var ctx=c.getContext("2d");
+							createLine(ctx,c.width,c.height);
+						</script>
+					</div>
+					<div style="width:100%;">
+						<canvas id="wc" width="180px" height="70px"></canvas><br/>
+						<script>
+							var c=document.getElementById("wc");
+							var ctx=c.getContext("2d");
+							createRadiusRect(ctx,0,0,180,70,10,"Client");
+							c.onclick=function(){
+								self.open("../download/client/windows");
+							}
+						</script>
+						<canvas id="ws" width="180px" height="70px"></canvas><br/>
+						<script>
+							var c=document.getElementById("ws");
+							var ctx=c.getContext("2d");
+							createRadiusRect(ctx,0,0,180,70,10,"Server");
+							c.onclick=function(){
+								self.open("../download/server/windows");
+							}
+						</script>
+					</div>
+				</div>
+			</div>
+			<div class="bodycontainer">
+				<div class="t">
+					<h1>Linux</h1>
+				</div>
+				<div class="b">
+					<div style="width:100%;">
+						<canvas id="linux" width="200px"></canvas>
+						<script>
+							var rnum=Math.round(Math.random()*55)+15;
+							var c=document.getElementById("linux");
+							c.height=700*0.92*rnum/100;
+							var ctx=c.getContext("2d");
+							createLine(ctx,c.width,c.height);
+						</script>
+					</div>
+					<div style="width:100%;">
+						<canvas id="lc" width="180px" height="70px"></canvas><br/>
+						<script>
+							var c=document.getElementById("lc");
+							var ctx=c.getContext("2d");
+							createRadiusRect(ctx,0,0,180,70,10,"Client");
+							c.onclick=function(){
+								self.open("../download/client/linux");
+							}
+						</script>
+						<canvas id="ls" width="180px" height="70px"></canvas><br/>
+						<script>
+							var c=document.getElementById("ls");
+							var ctx=c.getContext("2d");
+							createRadiusRect(ctx,0,0,180,70,10,"Server");
+							c.onclick=function(){
+								self.open("../download/server/linux");
+							}
+						</script>
+					</div>
+				</div>
+			</div>
+			<div class="bodycontainer">
+				<div class="t">
+					<h1>Mac</h1>
+				</div>
+				<div class="b">
+					<div style="width:100%;">
+						<canvas id="mac" width="200px"></canvas>
+						<script>
+							var rnum=Math.round(Math.random()*55)+15;
+							var c=document.getElementById("mac");
+							c.height=700*0.92*rnum/100;
+							var ctx=c.getContext("2d");
+							createLine(ctx,c.width,c.height);
+						</script>
+					</div>
+					<div style="width:100%;">
+						<canvas id="mc" width="180px" height="70px"></canvas><br/>
+						<script>
+							var c=document.getElementById("mc");
+							var ctx=c.getContext("2d");
+							createRadiusRect(ctx,0,0,180,70,10,"Client");
+							c.onclick=function(){
+								self.open("../download/client/mac");
+							}
+						</script>
+						<canvas id="ms" width="180px" height="70px"></canvas><br/>
+						<script>
+							var c=document.getElementById("ms");
+							var ctx=c.getContext("2d");
+							createRadiusRect(ctx,0,0,180,70,10,"Server");
+							c.onclick=function(){
+								self.open("../download/server/mac");
+							}
+						</script>
+					</div>
+				</div>
+			</div>
+			<div class="bodycontainer">
+				<div class="t">
+					<h1>Mobile</h1>
+				</div>
+				<div class="b">
+					<div style="width:100%;">
+						<canvas id="mobile" width="200px"></canvas>
+						<script>
+							var rnum=Math.round(Math.random()*55)+15;
+							var c=document.getElementById("mobile");
+							c.height=700*0.92*rnum/100;
+							var ctx=c.getContext("2d");
+							createLine(ctx,c.width,c.height);
+						</script>
+					</div>
+					<div style="width:100%;">
+						<canvas id="a" width="180px" height="70px"></canvas><br/>
+						<script>
+							var c=document.getElementById("a");
+							var ctx=c.getContext("2d");
+							createRadiusRect(ctx,0,0,180,70,10,"Android");
+							c.onclick=function(){
+								self.open("../download/client/android");
+							}
+						</script>
+						<canvas id="i" width="180px" height="70px"></canvas><br/>
+						<script>
+							var c=document.getElementById("i");
+							var ctx=c.getContext("2d");
+							createRadiusRect(ctx,0,0,180,70,10,"IOS");
+							c.onclick=function(){
+								self.open("../download/server/ios");
+							}
+						</script>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="foot">
+			<div id="footaddr">
+				<address style="margin-left:20px;margin-top:10px;">
+					<strong>企鹅:  517464047</strong><br/>
+					<strong>邮箱:  517464047@qq.com</strong><br/>
+					<strong>电话:  17751434337</strong><br/>
+					<strong>地址:  江苏省苏州市相城区</strong><br/>
+					<strong>github:暂不开源</strong><br/>
+				</address>
+			</div>
+			<div id="footicon">
+				<canvas id="icon" width=300px height=150px style="position:absolute;left:0;right:0;margin:auto;"></canvas>
+				<script>
+					var c=document.getElementById("icon")
+					var ctx=c.getContext("2d");
+					var g=ctx.createLinearGradient(0,0,c.width,0);
+					g.addColorStop("0","pink");
+					g.addColorStop("0.5","white");
+					g.addColorStop("1.0","magenta");
+					ctx.strokeStyle=g;
+					ctx.lineWidth=4;
+					ctx.strokeRect(0,0,300,150);
+					ctx.arc(150,75,70,0,2*Math.PI);
+					ctx.stroke();
+					ctx.textAlign='center';
+					ctx.textBaseline='middle';
+					ctx.lineWidth=1;
+					ctx.font='40px bold';
+					ctx.strokeText("盟",150,55);
+					ctx.strokeText("L e a g u e",150,95);
+				</script>
+			</div>
+			<div id="footabout">
+				<ul style="margin-top:10px;list-style-type:none;">
+					<li style="text-align:center;"><a href="./law"><strong>法律声明</strong></a></li>
+					<li style="text-align:center;"><a href="./about"><strong>关于我们</strong></a></li>
+					<li style="text-align:center;"><a href="./join"><strong>加入我们</strong></a></li>
+					<li style="text-align:center;"><strong></strong></li>
+					<li style="text-align:center;"><strong></strong></li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>

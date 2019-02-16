@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>home</title>
+		<script>
+			function createRadiusRect(c,x,y,w,h,r,text,hover){
+				c.clearRect(0,0,300,200);
+				if (hover){
+					c.lineWidth=4;
+					c.strokeStyle="rgb(75,95,115)";
+					c.beginPath();
+					c.moveTo(x+r,y);
+					c.arcTo(x+w,y,x+w,y+h,r);
+					c.arcTo(x+w,y+h,x,y+h,r);
+					c.arcTo(x,y+h,x,y,r);
+					c.arcTo(x,y,x+w,y,r);
+					c.closePath()
+					c.stroke();
+				}
+				c.lineWidth=1;
+				c.fillStyle='rgb(75,95,115)';
+				c.textAlign='center';
+				c.textBaseline='middle';
+				c.shadowColor='rgb(75,95,115)';
+				c.shadowBlur=20;
+				c.font='50px bold';
+				c.fillText(text,(w-x)/2,(h-y)/2);
+			}
+		</script>
+		<style type="text/css">
+			*{
+				margin:0px;
+				padding:0px;
+			}
+			.head{
+				width:100%;
+				height:180px;
+				background-color:rgb(75,95,115);
+			}
+			.body{
+				width:100%;
+				height:700px;
+				clear:both;
+				background-color:rgb(230,230,230);
+			}
+			.foot{
+				width:100%;
+				height:150px;
+				background-color:rgb(75,95,115);
+				color:white;
+			}
+			#headtitle{
+				width:100%;
+				height:180px;
+				float:left;
+			}
+			#headtitle a{
+				float:left;
+				color:white;
+				text-decoration:none;
+			}
+			#aside-left,#aside-right{
+				width:25%;
+				height:100%;
+				color:rgb(75,95,115);
+			}
+			#aside-left li,#aside-right li{
+				width:95%;
+				padding-left:5%;
+				font-size:30px;
+				white-space:nowrap;
+				text-overflow:ellipsis;
+			}
+			#aside-left li:hover,#aside-right li:hover{
+				background-color:rgba(153,218,255,0.5);
+				cursor:pointer;
+			}
+			.bodycontainer{
+				float:left;
+				position:relative;
+				width:25%;
+				height:50%;
+			}
+			.bodycontainer div{
+				width:300px;
+				height:200px;
+				position:absolute;
+			}
+			#lefttop:hover,#righttop:hover,#leftdown:hover,#rightdown:hover{
+				box-shadow:0px 0px 50px rgb(75,95,115);
+			}
+			#footaddr{
+				width:25%;
+				height:150px;
+				float:left;
+			}
+			#footicon{
+				width:50%;
+				height:150px;
+				float:left;
+			}
+			#footabout{
+				width:25%;
+				height:150px;
+				float:left;
+			}
+			#footabout a{
+				color:white;
+				text-decoration:none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="head">
+			<div id="headtitle">
+				<a>
+					<p style="font-size:50px;padding-left:20px;padding-top:5px;">
+						<strong>联盟链</strong>
+					</p>
+					<p style="font-size:20px;padding-left:20px;font-style:italic;">
+						<strong>自主开发,代码可控,为联盟集群设计,完善的权限控制<br/>区块链技术,数据不可篡改,安全可信</strong>
+					</p>
+				</a>
+			</div>
+		</div>
+		<div class="body">
+			<div id="aside-left" style="float:left;">
+				<div style="width:100%;height:100%;border-right:solid rgb(75,95,115);">
+					<h1 style="height:8%;text-align:center;">新闻</h1>
+					<ul style="width:100%;height:92%;overflow-y:auto;overflow-x:hidden;list-style-position:inside;">
+						<li onclick="javascript:self.open('https://www.baidu.com');">百度</li>
+					</ul>
+				</div>
+			</div>
+			<div id="aside-right" style="float:right;">
+				<div style="width:100%;height:100%;border-left:solid rgb(75,95,115);">
+					<h1 style="height:8%;text-align:center;">公告</h1>
+					<ul style="width:100%;height:92%;overflow-y:auto;overflow-x:hidden;list-style-position:inside;">
+						<li onclick="javascript:self.open('https://www.baidu.com');">百度</li>
+					</ul>
+				</div>
+			</div>
+			<div class="bodycontainer">
+				<div id="lefttop" style="right:50px;bottom:25px;">
+					<a href="./htmls/download">
+						<canvas id="lefttop-canvas" width="300px" height="200px"></canvas>
+						<script>
+							var clt=document.getElementById("lefttop-canvas");
+							var ctxlt=clt.getContext("2d");
+							createRadiusRect(ctxlt,0,0,300,200,10,"下载",false);
+							clt.onmouseover=function(){createRadiusRect(ctxlt,0,0,300,200,10,"下载",true)};
+							clt.onmouseout=function(){createRadiusRect(ctxlt,0,0,300,200,10,"下载",false)};
+						</script>
+					</a>
+				</div>
+			</div>
+			<div class="bodycontainer">
+				<div id="righttop" style="left:50px;bottom:25px;">
+					<a href="./htmls/monitor">
+						<canvas id="righttop-canvas" width="300px" height="200px"></canvas>
+						<script>
+							var crt=document.getElementById("righttop-canvas");
+							var ctxrt=crt.getContext("2d");
+							createRadiusRect(ctxrt,0,0,300,200,10,"监控",false);
+							crt.onmouseover=function(){createRadiusRect(ctxrt,0,0,300,200,10,"监控",true)};
+							crt.onmouseout=function(){createRadiusRect(ctxrt,0,0,300,200,10,"监控",false)};
+						</script>
+					</a>
+				</div>
+			</div>
+			<div class="bodycontainer">
+				<div id="leftdown" style="right:50px;top:25px;">
+					<a href="./htmls/search">
+						<canvas id="leftdown-canvas" width=300px height=200px"></canvas>
+						<script>
+							var cld=document.getElementById("leftdown-canvas");
+							var ctxld=cld.getContext("2d");
+							createRadiusRect(ctxld,0,0,300,200,10,"查询",false);
+							cld.onmouseover=function(){createRadiusRect(ctxld,0,0,300,200,10,"查询",true)};
+							cld.onmouseout=function(){createRadiusRect(ctxld,0,0,300,200,10,"查询",false)};
+						</script>
+					</a>
+				</div>
+			</div>
+			<div class="bodycontainer">
+				<div id="rightdown" style="left:50px;top:25px;">
+					<a href="./htmls/tutorial">
+						<canvas id="rightdown-canvas" width=300px height=200px"></canvas>
+						<script>
+							var crd=document.getElementById("rightdown-canvas");
+							var ctxrd=crd.getContext("2d");
+							createRadiusRect(ctxrd,0,0,300,200,10,"教程",false);
+							crd.onmouseover=function(){createRadiusRect(ctxrd,0,0,300,200,10,"教程",true)};
+							crd.onmouseout=function(){createRadiusRect(ctxrd,0,0,300,200,10,"教程",false)};
+						</script>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="foot">
+			<div id="footaddr">
+				<address style="margin-left:20px;margin-top:10px;">
+					<strong>企鹅:  517464047</strong><br/>
+					<strong>邮箱:  517464047@qq.com</strong><br/>
+					<strong>电话:  17751434337</strong><br/>
+					<strong>地址:  江苏省苏州市相城区</strong><br/>
+					<strong>github:暂不开源</strong><br/>
+				</address>
+			</div>
+			<div id="footicon">
+				<canvas id="icon" width=300px height=150px style="position:absolute;left:0;right:0;margin:auto;"></canvas>
+				<script>
+					var c=document.getElementById("icon")
+					var ctx=c.getContext("2d");
+					var g=ctx.createLinearGradient(0,0,c.width,0);
+					g.addColorStop("0","pink");
+					g.addColorStop("0.5","white");
+					g.addColorStop("1.0","magenta");
+					ctx.strokeStyle=g;
+					ctx.lineWidth=4;
+					ctx.strokeRect(0,0,300,150);
+					ctx.arc(150,75,70,0,2*Math.PI);
+					ctx.stroke();
+					ctx.textAlign='center';
+					ctx.textBaseline='middle';
+					ctx.lineWidth=1;
+					ctx.font='40px bold';
+					ctx.strokeText("盟",150,55);
+					ctx.strokeText("L e a g u e",150,95);
+				</script>
+			</div>
+			<div id="footabout">
+				<ul style="margin-top:10px;list-style-type:none;">
+					<li style="text-align:center;"><a href="./htmls/law"><strong>法律声明</strong></a></li>
+					<li style="text-align:center;"><a href="./htmls/about"><strong>关于我们</strong></a></li>
+					<li style="text-align:center;"><a href="./htmls/join"><strong>加入我们</strong></a></li>
+					<li type="text-align:center;"><strong></strong></li>
+					<li type="text-align:center;"><strong></strong></li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>

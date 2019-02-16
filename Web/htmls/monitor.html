@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>monitor</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1/dist/vue-resource.min.js"></script>
+		<style type="text/css">
+			*{
+				margin:0px;
+				padding:0px;
+			}
+			.head{
+				width:100%;
+				height:180px;
+				background-color:rgb(75,95,115);
+			}
+			.body{
+				width:100%;
+				height:700px;
+				clear:both;
+				background-color:rgb(230,230,230);
+			}
+			.foot{
+				width:100%;
+				height:150px;
+				background-color:rgb(75,95,115);
+				color:white;
+			}
+			#headtitle{
+				width:100%;
+				height:180px;
+				float:left;
+			}
+			#headtitle a{
+				float:left;
+				color:white;
+				text-decoration:none;
+			}
+			.body li{
+				width:98%;
+				padding-left:2%;
+				font-size:22px;
+				white-space:nowrap;
+				overflow:hidden;
+				text-overflow:ellipsis;
+				color:rgb(75,95,115);
+			}
+			.body span:hover{
+				background-color:rgba(153,218,255,0.5);
+				cursor:pointer;
+			}
+			.body pre{
+				border-bottom:1px solid rgb(75,95,115);
+			}
+			#footaddr{
+				width:25%;
+				height:150px;
+				float:left;
+			}
+			#footicon{
+				width:50%;
+				height:150px;
+				float:left;
+			}
+			#footabout{
+				width:25%;
+				height:150px;
+				float:left;
+			}
+			#footabout a{
+				color:white;
+				text-decoration:none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="head">
+			<div id="headtitle">
+				<a id="home" target="_blank">
+					<p style="font-size:50px;padding-left:20px;padding-top:5px;">
+						<strong>联盟链</strong>
+					</p>
+					<p style="font-size:20px;padding-left:20px;font-style:italic;">
+						<strong>自主开发,代码可控,为联盟集群设计,完善的权限控制<br/>区块链技术,数据不可篡改,安全可信</strong>
+					</p>
+				</a>
+				<script>
+					var e=document.getElementById("home");
+					e.href=document.location.protocol+"//"+document.location.hostname+(document.location.port?(":"+document.location.port):"");
+				</script>
+			</div>
+		</div>
+		<div id="body" class="body">
+			<div style="width:100%;height:35px;border-bottom:1px solid rgb(75,95,115);">
+				<p style="width:100%;color:rgb(75,95,115);font-size:20px;white-space:nowrap;text-overflow:ellipsis;">
+					使用服务器拥有者的账户名或账户ID或公钥pubkey.pem寻找：
+					<input placeholder="请输入账户名或ID" type="text" style="font-size:20px;width:20%;" v-model="input">
+					<button style="font-size:20px;height:35px;width:5%;" v-on:click="handleConfirm()">确认</button>
+					<input type="file" style="font-size:20px;height:35px;width:45%;" v-on:change="handleFile(event)">
+				</p>
+			</div>
+			<ul style="width:100%;height:95%;overflow-y:auto;overflow-x:hidden;list-style-position:inside;">
+				<li class="namelist" v-for="(id) in peers" v-if="(open&&peerinfo!=null&&peerinfo.Id==id)||!open">
+					<span v-on:click="handleClick(id)">{{ id }}</span>
+					<div v-if="open" style="width:95%;height:100%;padding-left:5%">
+						<pre>{{ serverinfo }}</pre>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<script>
+			const app = new Vue({
+				el:'#body', 
+				data:{
+					input:null,
+					ws:null,
+					ticker:null,
+					searchindex:null,
+					peers:[],
+					open:false,
+					peerinfo:{
+					}
+				},
+				computed:{
+					serverinfo:function(){
+						if(this.peerinfo!=null){
+							let total=""
+							total+="ServerName:\t\t"+this.peerinfo.Name+"\n"
+							total+="ServerAddr:\t\t"+this.peerinfo.Addr+"\n"
+							total+="ServerId:\t\t"+this.peerinfo.Id+"\n"
+							total+="ServerStatus:\t\t"
+							switch (this.peerinfo.Status){
+								case 0:total+="server is initalizing\n";break;
+								case -1:total+="system is offline,user's transactions will bot be accepted\n";break;
+								case 1:total+="system is online,all transactions will be accepted\n";break;
+							}
+							total+="Blockindex:\t\t"+this.peerinfo.Blockindex+"\n"
+							total+="Clients:\t\t"+this.peerinfo.Clients+"\n"
+							total+="BufferedTransactionNum:\t"+this.peerinfo.BufferT+"\n"
+							total+="BufferedBlockNum:\t"+this.peerinfo.BufferB+"\n"
+							for (k in this.peerinfo.Scripts){
+								total+="Script:\t\t\t"+k+"_"+this.peerinfo.Scripts[k]+"\n"
+							}
+							total+="Cpuused:\t\t"+this.peerinfo.Cpuused.toFixed(2)+"%\n"
+							total+="Memused:\t\t"+this.peerinfo.Memused.toFixed(2)+"%\t\tTotal:\t\t"+(this.peerinfo.Memtotal/1024/1024/1024).toFixed(2)+"G\n"
+							total+="Diskused:\t\t"+this.peerinfo.Diskused.toFixed(2)+"%\t\tTotal:\t\t"+(this.peerinfo.Disktotal/1024/1024/1024).toFixed(2)+"G\n"
+							for (k in this.peerinfo.Netup){
+								total+="Netcard:\t"+k+"\n"
+								var ut="B/s"
+								var u=this.peerinfo.Netup[k]
+								if (u>1024){
+									u/=1024
+									ut="K/s"
+								}
+								if (u>1024){
+									u/=1024
+									ut="M/s"
+								}
+								if (u>1024){
+									u/=1024
+									ut="G/s"
+								}
+								var dt="B/s"
+								var d=this.peerinfo.Netdown[k]
+								if (d>1024){
+									d/=1024
+									dt="K/s"
+								}
+								if (d>1024){
+									d/=1024
+									dt="M/s"
+								}
+								if (d>1024){
+									d/=1024
+									dt="G/s"
+								}
+								total+="Up:\t\t"+u.toFixed(2)+ut+"\n"
+								total+="Down:\t\t"+d.toFixed(2)+dt+"\n"
+							}
+							return total
+						}else{
+							return null
+						}
+					}
+				},
+				created:function(){
+					if (window.WebSocket){
+						var protocol=document.location.protocol=="https:"?"wss" : "ws"
+						var port=document.location.port?(":"+document.location.port):""
+						this.ws=new WebSocket(protocol+"://"+document.location.hostname+port+"/monitor/websocket")
+						this.ws.onopen=()=>{
+							this.websocketSend()
+						}
+						this.ws.onmessage=this.websocketRead
+						this.ws.onclose=()=>{
+							this.ws=null
+						}
+						this.ws.onerror=()=>{
+							alert("request data error!\nconnection interrupt!")
+						}
+						this.ticker=setInterval(()=>{this.websocketSend()},5000)
+					}else{
+						this.ajaxSend()
+						this.ticker=setInterval(()=>{this.ajaxSend()},5000)
+					}
+				},
+				methods:{
+					handleFile:function(event){
+						if (event.target.files.length){
+							let reader = new FileReader()
+							reader.onload=()=>{
+								this.open=true
+								this.searchindex = reader.result
+								if (this.ws!=null){
+									this.websocketSend()
+								}else{
+									this.ajaxSend()
+								}
+							}
+							let file = event.target.files[0]
+							if (file.name.substr(file.name.lastIndexOf(".")+1)!="pem"){
+								alert("file illegal!")
+							}else{
+								reader.readAsText(file)
+							}
+							event.target.value=""
+						}
+					},
+					handleConfirm:function(){
+						if (this.input!=null&&this.input.length!=0){
+							this.open=true
+							this.searchindex=this.input
+							this.input=null
+							if (this.ws!=null){
+								this.websocketSend()
+							}else{
+								this.ajaxSend()
+							}
+						}
+					},
+					handleClick:function(id){
+						if (this.open){
+							this.peerinfo=null
+							this.open=false
+							this.searchindex=null
+						}else{
+							this.open=true
+							this.searchindex=id
+							if (this.ws!=null){
+								this.websocketSend()
+							}else{
+								this.ajaxSend()
+							}
+						}
+					},
+					websocketSend:function(){
+						if(this.ws!=null){
+							this.ws.send(JSON.stringify({Index:this.searchindex}))
+						}else{
+							var protocol=document.location.protocol=="https:"?"wss" : "ws"
+							var port=document.location.port?(":"+document.location.port):""
+							this.ws=new WebSocket(protocol+"://"+document.location.hostname+port+"/monitor/websocket")
+							this.ws.onopen=()=>{
+								this.websocketSend()
+							}
+							this.ws.onmessage=this.websocketRead
+							this.ws.onclose=()=>{
+								this.ws=null
+							}
+							this.ws.onerror=()=>{
+								alert("request data error!\nconnection interrupt!")
+							}
+						}
+					},
+					websocketRead:function(evt){
+						try{
+							var mes=JSON.parse(evt.data)
+							this.peers=mes.Peers
+							if (mes.Special==null){
+								this.open=false
+							}
+							this.peerinfo=mes.Special
+						}
+						catch(err){
+							alert("request data error!\n"+evt.data)
+						}
+					},
+					ajaxSend:function(){
+						this.$http.post("../monitor/ajax",JSON.stringify({Name:this.searchindex})).then(
+							this.ajaxRead,
+							(err)=>{
+								alert("request data error!\n"+err.data)
+							}
+						)
+					},
+					ajaxRead:function(response){
+						this.peers=response.data.Peers
+						if (response.data.Special==null){
+							this.open=false
+						}
+						this.peerinfo=response.data.Special
+					}
+				}
+			});
+		</script>
+		<div class="foot">
+			<div id="footaddr">
+				<address style="margin-left:20px;margin-top:10px;">
+					<strong>企鹅:  517464047</strong><br/>
+					<strong>邮箱:  517464047@qq.com</strong><br/>
+					<strong>电话:  17751434337</strong><br/>
+					<strong>地址:  江苏省苏州市相城区</strong><br/>
+					<strong>github:暂不开源</strong><br/>
+				</address>
+			</div>
+			<div id="footicon">
+				<canvas id="icon" width=300px height=150px style="position:absolute;left:0;right:0;margin:auto;"></canvas>
+				<script>
+					var c=document.getElementById("icon")
+					var ctx=c.getContext("2d");
+					var g=ctx.createLinearGradient(0,0,c.width,0);
+					g.addColorStop("0","pink");
+					g.addColorStop("0.5","white");
+					g.addColorStop("1.0","magenta");
+					ctx.strokeStyle=g;
+					ctx.lineWidth=4;
+					ctx.strokeRect(0,0,300,150);
+					ctx.arc(150,75,70,0,2*Math.PI);
+					ctx.stroke();
+					ctx.textAlign='center';
+					ctx.textBaseline='middle';
+					ctx.lineWidth=1;
+					ctx.font='40px bold';
+					ctx.strokeText("盟",150,55);
+					ctx.strokeText("L e a g u e",150,95);
+				</script>
+			</div>
+			<div id="footabout">
+				<ul style="margin-top:10px;list-style-type:none;">
+					<li style="text-align:center;"><a href="./law"><strong>法律声明</strong></a></li>
+					<li style="text-align:center;"><a href="./about"><strong>关于我们</strong></a></li>
+					<li style="text-align:center;"><a href="./join"><strong>加入我们</strong></a></li>
+					<li style="text-align:center;"><strong></strong></li>
+					<li style="text-align:center;"><strong></strong></li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>

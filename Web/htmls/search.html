@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>mainpage</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1/dist/vue-resource.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/js-base64@2.5.0/base64.min.js"></script>
+		<style type="text/css">
+			*{
+				margin:0px;
+				padding:0px;
+			}
+			.head{
+				width:100%;
+				height:180px;
+				background-color:rgb(75,95,115);
+			}
+			.body{
+				width:100%;
+				height:700px;
+				clear:both;
+				color:rgb(75,95,115);
+				background-color:rgb(230,230,230);
+			}
+			.foot{
+				width:100%;
+				height:150px;
+				background-color:rgb(75,95,115);
+				color:white;
+			}
+			#headtitle{
+				width:100%;
+				height:180px;
+				float:left;
+			}
+			#headtitle a{
+				float:left;
+				color:white;
+				text-decoration:none;
+			}
+			#right li>p:hover,#left li>p:hover{
+				background-color:rgba(153,218,255,0.5);
+				cursor:pointer;
+			}
+			#footaddr{
+				width:25%;
+				height:150px;
+				float:left;
+			}
+			#footicon{
+				width:50%;
+				height:150px;
+				float:left;
+			}
+			#footabout{
+				width:25%;
+				height:150px;
+				float:left;
+			}
+			#footabout a{
+				color:white;
+				text-decoration:none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="head">
+			<div id="headtitle">
+				<a id="home" target="_blank">
+					<p style="font-size:50px;padding-left:20px;padding-top:5px;">
+						<strong>联盟链</strong>
+					</p>
+					<p style="font-size:20px;padding-left:20px;font-style:italic;">
+						<strong>自主开发,代码可控,为联盟集群设计,完善的权限控制<br/>区块链技术,数据不可篡改,安全可信</strong>
+					</p>
+				</a>
+				<script>
+					var e=document.getElementById("home");
+					e.href=document.location.protocol+"//"+document.location.hostname+(document.location.port?(":"+document.location.port):"");
+				</script>
+			</div>
+		</div>
+		<div id="body" class="body">
+			<div id="left" style="width:50%;height:100%;float:left;font-size:20px;overflow:hidden;text-overflow:ellipsis;">
+				<div style="width:100%;height:100%;border-right:2px solid;">
+					<h1 style="text-align:center;">查询区块信息</h1>
+					<p style="width:100%;white-space:nowrap;">强烈建议使用客户端查询，仍需查询请输入需要查询的区块编号：</p>
+					<p style="width:100%;white-space:nowrap;text-overflow:ellipsis;">
+						<input type="text" style="font-size:20px;width:40%;" v-model="blockinput">
+						<button style="font-size:20px;height:35px;width:10%;" v-on:click="handleConfirm(3)">确认</button>
+					</p>
+					<hr style="width:100%;"></hr>
+					<p style="white-space:nowrap;" v-if="blockinfo.Blockindex!=0">区块编号：{{ blockinfo.Blockindex }}</p>
+					<p style="white-space:nowrap;" v-if="blockinfo.Blockindex!=0">创建时间：{{ (new Date(blockinfo.Timestamp/1000/1000)).toLocaleString() }}</p>
+					<p style="white-space:nowrap;" v-if="blockinfo.Blockindex!=0">创建者：{{ blockinfo.Creater }}</p>
+					<p style="white-space:nowrap;" v-if="blockinfo.Blockindex!=0">区块哈希：{{ blockinfo.Blockhash }}</p>
+					<p style="white-space:nowrap;" v-if="blockinfo.Blockindex!=0">上个区块哈希：{{ blockinfo.Lastblockhash }}</p>
+					<p style="white-space:nowrap;" v-if="blockinfo.Blockindex!=0">所有交易：</p>
+					<ul v-if="blockinfo.Blockindex!=0" style="width:100%;height:57%;overflow-y:auto;overflow-x:hidden;list-style-type:none;">
+						<li style="width:100%;" v-for="(obj,i) in blockinfo.Txinfos">
+							<p v-on:click="openTx(obj,-1)"> {{ "交易: "+i}}</p>
+							<pre v-if="obj.Open">{{ showTx(obj,0) }}</pre>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id="right" style="width:50%;height:100%;float:left;font-size:20px;overflow:hidden;text-overflow:ellipsis;">
+				<div style="width:100%;height:100%;border-left:2px solid;">
+					<h1 style="text-align:center;">查询用户信息</h1>
+					<p style="width:100%;white-space:nowrap;">强烈建议使用客户端查询，仍需查询请输入需要查询的账户名或账户ID或公钥pubkey.pem：</p>
+					<p style="width:100%;white-space:nowrap;text-overflow:ellipsis;">
+						<input type="text" style="font-size:20px;width:40%;" v-model="userinput">
+						<button style="font-size:20px;height:35px;width:10%;" v-on:click="handleConfirm(1)">确认</button>
+						<input type="file" style="font-size:20px;width:48%;" v-on:change="handleFile(event)">
+					</p>
+					<hr style="width:100%;"></hr>
+					<p style="white-space:nowrap;" v-if="userinfo.Account!=null">帐号名字：{{ userinfo.Account }}</p>
+					<p style="white-space:nowrap;" v-if="userinfo.Account!=null">帐号ID：{{ userinfo.Id}}</p>
+					<p v-if="userinfo.Account!=null">余额：{{ userinfo.Money }}</p>
+					<p  v-if="userinfo.Account!=null&&userdatalen!=0">帐号信息：</p>
+					<ul style="width:100%;height:12%;overflow-y:auto;overflow-x:hidden;list-style-type:none;" v-if="userinfo.Account!=null&&userdatalen!=0">
+						<li style="width:100%;">
+							<pre>{{ showUser() }}</pre>
+						</li>
+					</ul>
+					<p v-if="userinfo.Account!=null">所有交易：</p>
+					<ul style="width:100%;height:50%;overflow-y:auto;overflow-x:hidden;list-style-type:none;" v-if="userinfo.Account!=null&&userdatalen!=0">
+						<li style="width:100%;" v-for="(obj,i) in userinfo.Txinfos">
+							<p v-on:click="openTx(obj,i)">{{ "交易："+i}}</p>
+							<pre v-if="obj.Open">{{ showTx(obj,1) }}</pre>
+						</li>
+					</ul>
+					<ul style="width:100%;height:66%;overflow-y:auto;overflow-x:hidden;list-style-type:none;" v-else-if="userinfo.Account!=null">
+						<li style="width:100%;" v-for="(obj,i) in userinfo.Txinfos">
+							<p v-on:click="openTx(obj,i)">{{ "交易："+i}}</p>
+							<pre v-if="obj.Open">{{ showTx(obj,1) }}</pre>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script>
+			const app = new Vue({
+				el:"#body",
+				data:{
+					blockinput:null,
+					userinput:null,
+					userinfo:{
+						Account:null,
+						Id:0,
+						Money:0,
+						Userdata:{},
+						Cleartimes:0,
+						Txinfos:[],
+					},
+					blockinfo:{
+						Blockindex:0,
+						Timestamp:0,
+						Creater:null,
+						Blockhash:null,
+						Lastblockhash:null,
+						Txinfos:[],
+					},
+				},
+				computed:{
+					userdatalen:function(){
+						let count=0
+						for (k in this.userinfo.Userdata){
+							count++
+						}
+						return count
+					},
+				},
+				methods:{
+					showUser:function(){
+						let total=""
+						for (scriptName in this.userinfo.Userdata){
+							let t=scriptName+":\n"
+							let obj=JSON.parse(Base64.decode(this.userinfo.Userdata[scriptName]))
+							for (k in obj){
+								t+=("\t"+k+":"+obj[k]+"\n")
+							}
+							total+=t
+						}
+						return total
+					},
+					showTx:function(obj,where){
+						let l1=l2=l3=l4=l5=l6=l7=""
+						if (where==1){
+							l1 = "所在区块："+obj.Blockindex+"\n"
+							l2 = "区块中位置："+obj.Indexinblock+"\n"
+						}
+						if(obj.Txtype!=null){
+							l3 = "交易结果："+obj.Result+"\n"
+							l4 = "创建时间："+(new Date(obj.Timestamp/1000/1000)).toLocaleString()+"\n"
+							l5 = "交易类型："
+							switch(obj.Txtype){
+								case 0:l5+="删除脚本\n";break;
+								case 1:l5+="安装脚本\n";break;
+								case 2:l5+="普通交易\n";break;
+								case 3:l5+="充值交易\n";break;
+								case 4:l5+="提现交易\n";break;
+								case 5:l5+="系统开启\n";break;
+								case 6:l5+="系统关闭\n";break;
+								case 7:l5+="清除缓存\n";break;
+								case 8:l5+="清除记录\n";break;
+								case 9:l5+="注册新用户\n";break;
+							}
+							l6 = "创建者："+obj.Creater+"\n"
+							l7 = "交易参数：\n"
+							for (i in obj.Args){
+								l7+=obj.Args[i]+"\n"
+							}
+						}
+						if (where==1){
+							if(obj.Txtype!=null){
+								return l1+l2+l3+l4+l5+l6+l7
+							}else{
+								return l1+l2
+							}
+						}else{
+							return l3+l4+l5+l6+l7
+						}
+					},
+					openTx:function(obj,i){
+						if (!obj.Open&&obj.Txtype==null){
+							this.ajaxSend(JSON.stringify({T:2,D:{N:this.userinfo.Account,B:obj.Blockindex,IB:obj.Indexinblock,IU:i}}))
+						}
+						if(!obj.Open){
+							obj.Open=true
+						}else{
+							obj.Open=false
+						}
+					},
+					handleFile:function(event){
+						if (event.target.files.length){
+							let reader = new FileReader()
+							reader.onload=()=>{
+								let result = reader.result.split("\n")
+								let temp = result[1]+result[2]
+								if (this.userinfo.Account!=temp){
+									this.userinfo.Account=null
+									this.userinfo.Id=0
+									this.userinfo.Money=0
+									this.userinfo.Userdata={}
+									this.userinfo.Txinfos={}
+									this.ajaxSend(JSON.stringify({T:1,D:{N:reader.result,I:0}}))
+								}else{
+									this.ajaxSend(JSON.stringify({T:1,D:{N:this.userinfo.Account,I:this.userinfo.Txinfos.length}}))
+								}
+							}
+							let file = event.target.files[0]
+							if (file.name.substr(file.name.lastIndexOf(".")+1)!="pem"){
+								alert("file illegal!")
+							}else{
+								reader.readAsText(file)
+							}
+							event.target.value=""
+						}
+					},
+					handleConfirm:function(type){
+						switch(type){
+							case 1:
+								if(this.userinput!=null&&this.userinput.length!=0){
+									let inputid = Number(this.userinput)
+									let input=""
+									if (isNaN(inputid)){
+										input=this.userinput
+									}else if(Math.floor(inputid/10000000000)==0){
+										alert("input number illegal")
+										return
+									}else{
+										input=inputid
+									}
+									if (this.userinfo.Account!=input&&this.userinfo.Id!=inputid){
+										this.userinfo.Account=null
+										this.userinfo.Id=0
+										this.userinfo.Money=0
+										this.userinfo.Userdata={}
+										this.userinfo.Txinfos=[]
+										this.ajaxSend(JSON.stringify({T:1,D:{N:input,I:0}}))
+									}else{
+										this.ajaxSend(JSON.stringify({T:1,D:{N:this.userinfo.Account,I:this.userinfo.Txinfos.length}}))
+									}
+								}
+								this.userinput=null
+								break
+							case 3:
+								if((this.blockinput!=null)&&(this.blockinput.length!=0)){
+									let input = Number(this.blockinput)
+									if (isNaN(input)){
+										alert("wrong input")
+									}else if (this.blockinfo.Blockindex!=input){
+										this.blockinfo.Blockindex=0
+										this.blockinfo.Timestamp=0
+										this.blockinfo.Creater=null
+										this.blockinfo.Blockhash=null
+										this.blockinfo.Lastblockhash=null
+										this.blockinfo.Txinfos=[]
+										this.ajaxSend(JSON.stringify({T:3,D:{B:input}}))
+									}
+								}
+								this.blockinput=null
+								break
+						}
+					},
+					ajaxSend:function(data){
+						this.$http.post("../search/ajax",data).then(
+							this.ajaxRead,
+							(err)=>{
+								alert("request data error!\n"+err.data);
+							}
+						);
+					},
+					ajaxRead:function(r){
+						if (r.data.T==null){
+							alert("request data error!\n"+r.data);
+							return
+						}
+						switch(r.data.T){
+							case 1:
+								if (this.userinfo.Account==r.data.D.N&&this.userinfo.Id==r.data.D.ID){
+									if (r.data.D.SI==this.userinfo.Txinfos.length){
+										this.userinfo.Userdata = r.data.D.D
+										this.userinfo.Money = r.data.D.M
+										for (i in r.data.D.T){
+											let info = r.data.D.T[i]
+											this.userinfo.Txinfos.push({Blockindex:info[0],Indexinblock:info[1],Open:false})
+										}
+									}
+								}else{
+									if (r.data.D.SI==0){
+										this.userinfo.Account=r.data.D.N
+										this.userinfo.Id=r.data.D.ID
+										this.userinfo.Money = r.data.D.M
+										this.userinfo.Userdata = r.data.D.D
+										this.userinfo.Txinfos=[]
+										for (i in r.data.D.T){
+											let info = r.data.D.T[i]
+											this.userinfo.Txinfos.push({Blockindex:info[0],Indexinblock:info[1],Open:false})
+										}
+									}
+								}
+								break
+							case 2:
+								if (this.userinfo.Account==r.data.D.N&&this.userinfo.Id==r.data.D.ID){
+									if (this.userinfo.Txinfos.length>r.data.D.IU){
+										this.userinfo.Txinfos[r.data.D.IU].Result=r.data.D.R
+										this.userinfo.Txinfos[r.data.D.IU].Creater=r.data.D.C
+										this.userinfo.Txinfos[r.data.D.IU].Txtype=r.data.D.T
+										this.userinfo.Txinfos[r.data.D.IU].Timestamp=r.data.D.TM
+										this.userinfo.Txinfos[r.data.D.IU].Args=[]
+										for (i in r.data.D.A){
+											this.userinfo.Txinfos[r.data.D.IU].Args.push(Base64.decode(r.data.D.A[i]))
+										}
+										Vue.set(this.userinfo.Txinfos,r.data.D.IU,this.userinfo.Txinfos[r.data.D.IU])
+									}else{
+										alert("data error!\n")
+									}
+								}
+								break
+							case 3:
+								this.blockinfo.Blockindex = r.data.D.B
+								this.blockinfo.Timestamp = r.data.D.T
+								this.blockinfo.Creater = r.data.D.C
+								this.blockinfo.Blockhash = r.data.D.BCH
+								this.blockinfo.Lastblockhash = r.data.D.BLH
+								this.blockinfo.Txinfos = []
+								for (i in r.data.D.TXS){
+									let tx = r.data.D.TXS[i]
+									let tempargs = []
+									for (j in tx.A){
+										let arg = tx.A[j]
+										tempargs.push(Base64.decode(arg))
+									}
+									this.blockinfo.Txinfos.push({
+										Result:tx.R,
+										Creater:tx.C,
+										Txtype:tx.T,
+										Timestamp:tx.TM,
+										Args:tempargs,
+										Open:false,
+									})
+								}
+								break
+						}
+					},
+				},
+			})
+		</script>
+		<div class="foot">
+			<div id="footaddr">
+				<address style="margin-left:20px;margin-top:10px;">
+					<strong>企鹅:  517464047</strong><br/>
+					<strong>邮箱:  517464047@qq.com</strong><br/>
+					<strong>电话:  17751434337</strong><br/>
+					<strong>地址:  江苏省苏州市相城区</strong><br/>
+					<strong>github:暂不开源</strong><br/>
+				</address>
+			</div>
+			<div id="footicon">
+				<canvas id="icon" width=300px height=150px style="position:absolute;left:0;right:0;margin:auto;"></canvas>
+				<script>
+					var c=document.getElementById("icon")
+					var ctx=c.getContext("2d");
+					var g=ctx.createLinearGradient(0,0,c.width,0);
+					g.addColorStop("0","pink");
+					g.addColorStop("0.5","white");
+					g.addColorStop("1.0","magenta");
+					ctx.strokeStyle=g;
+					ctx.lineWidth=4;
+					ctx.strokeRect(0,0,300,150);
+					ctx.arc(150,75,70,0,2*Math.PI);
+					ctx.stroke();
+					ctx.textAlign='center';
+					ctx.textBaseline='middle';
+					ctx.lineWidth=1;
+					ctx.font='40px bold';
+					ctx.strokeText("盟",150,55);
+					ctx.strokeText("L e a g u e",150,95);
+				</script>
+			</div>
+			<div id="footabout">
+				<ul style="margin-top:10px;list-style-type:none;">
+					<li style="text-align:center;"><a href="./law"><strong>法律声明</strong></a></li>
+					<li style="text-align:center;"><a href="./about"><strong>关于我们</strong></a></li>
+					<li style="text-align:center;"><a href="./join"><strong>加入我们</strong></a></li>
+					<li style="text-align:center;"><strong></strong></li>
+					<li style="text-align:center;"><strong></strong></li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>

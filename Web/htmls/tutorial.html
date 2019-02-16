@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>mainpage</title>
+		<style type="text/css">
+			*{
+				margin:0px;
+				padding:0px;
+			}
+			.head{
+				width:100%;
+				height:180px;
+				background-color:rgb(75,95,115);
+			}
+			.body{
+				width:100%;
+				height:700px;
+				clear:both;
+				color:rgb(75,95,115);
+				background-color:rgb(230,230,230);
+				white-space:nowrap;
+				overflow-y:auto;
+				overflow-x:hidden;
+			}
+			.foot{
+				width:100%;
+				height:150px;
+				background-color:rgb(75,95,115);
+				color:white;
+			}
+			#headtitle{
+				width:100%;
+				height:180px;
+				float:left;
+			}
+			#headtitle a{
+				float:left;
+				color:white;
+				text-decoration:none;
+			}
+			#footaddr{
+				width:25%;
+				height:150px;
+				float:left;
+			}
+			#footicon{
+				width:50%;
+				height:150px;
+				float:left;
+			}
+			#footabout{
+				width:25%;
+				height:150px;
+				float:left;
+			}
+			#footabout a{
+				color:white;
+				text-decoration:none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="head">
+			<div id="headtitle">
+				<a id="home" target="_blank">
+					<p style="font-size:50px;padding-left:20px;padding-top:5px;">
+						<strong>联盟链</strong>
+					</p>
+					<p style="font-size:20px;padding-left:20px;font-style:italic;">
+						<strong>自主开发,代码可控,为联盟集群设计,完善的权限控制<br/>区块链技术,数据不可篡改,安全可信</strong>
+					</p>
+				</a>
+				<script>
+					var e=document.getElementById("home");
+					e.href=document.location.protocol+"//"+document.location.hostname+(document.location.port?(":"+document.location.port):"");
+				</script>
+			</div>
+		</div>
+		<div class="body">
+			<h1 style="text-align:center">欢迎使用本产品，下面是使用指南</h1>
+			<p style="text-indent:5%"><b>本产品使用公私钥作为用户帐号密码，每个使用者必须拥有一对由联盟认可的公私钥才能使用该产品，联盟会对每个人的公私钥进行签名。</b></p><br/>
+			<p style="text-indent:5%"><b>客户端用户：</b></p>
+			<p style="text-indent:5%">1.在下载页面下载对应的客户端用于使用该产品，客户端在不同的操作系统有不同版本，包括windows，linux，mac的client，android和ios。
+			<p style="text-indent:5%">2.在下载页面下载caPubKey用于验证用户公私钥的联盟签名。
+			<p style="text-indent:5%">3.运行客户端，并且填写联盟地址（<b>详情请见注</b>），该联盟地址用于注册，签名，以及提供节点列表等功能。
+			<p style="text-indent:5%">4.如果你是个新用户，在客户端上进行注册，注册会产生一个pubkey和一个prikey。pubkey是公钥，可以告诉任何人，prikey是私钥，不要告诉任何人，不要告诉任何人，不要告诉任何人（重要的事情说3遍）。</p>
+			<p style="text-indent:5%">5.开始使用本产品，在你的客户端中选择在第二步中下载的caPubKey和第四步生成的pubkey和prikey，你可以选择手动指定需要连接的节点服务器或者由联盟提供节点列表。</p>
+			<p style="text-indent:5%">5.连接上节点服务器后，你现在就可以正常使用了，查询个人账户信息，发起交易等。</p><br/>
+			<p style="text-indent:5%"><b>服务端用户：服务端用户必须由联盟认可并且为你的账户提升权限才能成为服务端使用者。</b></p>
+			<p style="text-indent:5%">1.在下载页面下载解压缩对应的服务端用于使用该产品，服务端在不同的操作系统有不同版本，包括windows，linux，mac的server。</p>
+			<p style="text-indent:5%">2.在下载页面下载caPubkey用于验证用户公私钥的联盟签名，将其和服务器程序放在同一目录下。</p>
+			<p style="text-indent:5%">3.修改main.conf，该文件是配置文件以json格式编写。</p>
+			<p style="text-indent:10%"><b>Pullspeed</b>是新加入集群时同步旧区块的速度，单位(个/s)，太小将会使得同步需要花大量的时间，太大会造成网络以及机器性能的过度占用，视服务器情况而定。</p>
+			<p style="text-indent:10%"><b>Logpath</b>是你要将日志放在何处。<b>Logfilesize</b>是每个日志文件的最大大小。<b>Loglevel</b>是记录什么等级的日志信息(Debug,Info,Warning)。</p>
+			<p style="text-indent:10%"><b>CaAddr</b>是联盟地址（<b>详情请见注</b>）。<b>SelfAddr</b>是自身监听的地址。<b>PubAddr</b>是公网地址，有些服务器是在硬件防火墙之后的，它的内网地址需要映射到公网地址。如果你的服务器直接暴露在公网，那么这两个地址是相同的。</p>
+			<p style="text-indent:10%"></p>
+			<p style="text-indent:10%"><b>Dbpath</b>是你要将数据库存放在何处。</p>
+			<p style="text-indent:5%">4.1.如果你已经拥有公私钥（比如之前你是个客户端用户）可以直接将公私钥拿过来使用。</p>
+			<p style="text-indent:5%">4.2.如果你需要重新注册公私钥，请使用客户端程序注册，或者使用前面三步配置好的服务端程序以-f new的参数运行程序进行注册。</p>
+			<p style="text-indent:5%">5.1.如果你的公私钥还没有经过联盟认可，那么此时它只能用于客户端而不能用于服务端，请先向联盟提出申请由联盟进行审批。审批通过后将为你的账户提升权限，然后才能用于服务端。</p>
+			<p style="text-indent:5%">5.2.如果你的公私钥已经经过联盟认可，将公私钥和服务器程序放在同一个目录下。此时就可以以-f start的参数运行程序成为一个节点了。</p><br/>
+			<p style="text-indent:5%"><b>合约的安装：合约必须经过联盟审核并且只能由联盟进行安装。</b></p>
+			<p style="text-indent:5%">1.合约的开发语言为lua，只能有一个文件(必须是源文件，不支持字节码文件)。</p>
+			<p style="text-indent:5%">2.不同合约之间的userdata和cachedata都是数据隔离的，因此不必为了隔离数据而专门定义特定的key。</p>
+			<p style="text-indent:5%">3.合约必须有以下元素：</p>
+			<p style="text-indent:10%"><b>min_money</b>大于等于0的全局变量。用于指明调用该合约时账户必须拥有的最小余额。如果为0则表示没有限制。</p>
+			<p style="text-indent:10%"><b>script_name</b>字符串类型全局变量。用于指明该合约的名字。</p>
+			<p style="text-indent:10%"><b>clear</b>没有返回值和参数的全局函数。由联盟周期性地调用，用于周期性的处理该合约缓存在数据库中的数据，如果有数据需要周期性地清理汇总请在这里处理，如果没有在数据库中缓存数据或者不需要对数据进行处理，该函数为空函数。</p>
+			<p style="text-indent:10%"><b>自定义function</b>两个参数一个返回值的全局函数。由合约开发者开发，真正实现功能的地方。<b>参数一：</b>交易创建者id(字符串)，<b>参数二：</b>function参数(table数组)，<b>返回值：</b>执行结果(数字)<b>可选值：</b>大于等于0(执行成功)，小于等于-4(执行失败)</p>
+			<p style="text-indent:5%">4.合约中可使用的API：</p>
+			<p style="text-indent:10%"><b>json_marshal</b>将table转换成字符串。<b>返回值：</b>字符串(成功)，nil(出错)，<b>参数一：</b>table(可嵌套)(调用该函数时请注意，禁止metatable，禁止同一个table中既有数组又有map，禁止数组索引跳跃。)</p>
+			<p style="text-indent:10%"><b>json_unmarshal</b>将字符串转换成table。<b>返回值：</b>table(成功)，nil(出错)，<b>参数一：</b>字符串(通常是由json_marshal处理得到的)</p>
+			<p style="text-indent:10%"><b>get_usermoney</b>获取用户的账户余额。<b>返回值：</b>数字(成功)，nil(出错，用户不存在)，<b>参数一：</b>用户ID(字符串)</p>
+			<p style="text-indent:10%"><b>set_usermoney</b>设置用户的账户余额。<b>返回值：</b>true(成功)，nil(出错，用户不存在)，<b>参数一：</b>用户ID(字符串)，<b>参数二：</b>金额(正整数，单位为分)</p>
+			<p style="text-indent:10%"><b>get_userdata</b>获取用户在该合约中的信息。<b>返回值：</b>字符串(成功)(通常是由json_marshal得到)，nil(出错，用户不存在)，<b>参数一：</b>用户ID(字符串)</p>
+			<p style="text-indent:10%"><b>set_userdata</b>设置用户在该合约中的信息。<b>返回值：</b>true(成功)，nil(出错，用户不存在)，<b>参数一：</b>用户ID(字符串)，<b>参数二：</b>用户信息(字符串，通常是由json_marshal得到)</p>
+			<p style="text-indent:10%"><b>get_cachedata</b>获取该合约的缓存数据key-value模式。<b>返回值：</b>value(成功)(字符串)，nil（出错，key不存在)，<b>参数一：</b>key(字符串)</p>
+			<p style="text-indent:10%"><b>set_cachedata</b>设置该合约的缓存数据key-value模式。<b>返回值：</b>true(总是成功)，<b>参数一：</b>key(字符串)，<b>参数二：</b>value(字符串)</p>
+			<p style="text-indent:10%"><b>del_cachedata</b>清除该合约的缓存数据key-value模式。<b>返回值：</b>true(总是成功)，<b>参数一：</b>key(字符串)</p>
+			<p style="text-indent:5%">5.合约中可使用的lua系统自带的API：</p>
+			<p style="text-indent:10%"><b>print</b>测试使用</p>
+			<p style="text-indent:10%"><b>select</b></p>
+			<p style="text-indent:10%"><b>tonumber</b></p>
+			<p style="text-indent:10%"><b>tostring</b></p>
+			<p style="text-indent:10%"><b>type</b></p>
+			<p style="text-indent:10%"><b>table相关</b></p>
+			<p style="text-indent:10%"><b>string相关</b></p>
+			<p style="text-indent:10%"><b>math相关</b></p><br/>
+			<p style="text-indent:5%"><b>注：</b>当你成为一个服务端用户，并且使用你的公私钥运行了一个节点后，你仍然可以使用相同的公私钥运行客户端，也就是可以同时运行服务端和客户端，在作为服务者的同时你也可以是一个消费者。</p>
+			<p style="text-indent:5%"><b>注：</b>不要随意修改文件名。从下载页面下载的caPubKey的文件名是ca.pem。注册生成的用户公私钥文件名是pubkey.pem和prikey.pem。服务端配置文件文件名是main.conf</p>
+			<p style="text-indent:5%"><b>注：</b>当前联盟地址：<b>185.208.170.210:80</b></p>
+			<p style="text-indent:5%"><b>注：</b>服务端程序必须要有3个及以上节点才能组成最基本的联盟集群。</p>
+		</div>
+		<div class="foot">
+			<div id="footaddr">
+				<address style="margin-left:20px;margin-top:10px;">
+					<strong>企鹅:  517464047</strong><br/>
+					<strong>邮箱:  517464047@qq.com</strong><br/>
+					<strong>电话:  17751434337</strong><br/>
+					<strong>地址:  江苏省苏州市相城区</strong><br/>
+					<strong>github:暂不开源</strong><br/>
+				</address>
+			</div>
+			<div id="footicon">
+				<canvas id="icon" width=300px height=150px style="position:absolute;left:0;right:0;margin:auto;"></canvas>
+				<script>
+					var c=document.getElementById("icon")
+					var ctx=c.getContext("2d");
+					var g=ctx.createLinearGradient(0,0,c.width,0);
+					g.addColorStop("0","pink");
+					g.addColorStop("0.5","white");
+					g.addColorStop("1.0","magenta");
+					ctx.strokeStyle=g;
+					ctx.lineWidth=4;
+					ctx.strokeRect(0,0,300,150);
+					ctx.arc(150,75,70,0,2*Math.PI);
+					ctx.stroke();
+					ctx.textAlign='center';
+					ctx.textBaseline='middle';
+					ctx.lineWidth=1;
+					ctx.font='40px bold';
+					ctx.strokeText("盟",150,55);
+					ctx.strokeText("L e a g u e",150,95);
+				</script>
+			</div>
+			<div id="footabout">
+				<ul style="margin-top:10px;list-style-type:none;">
+					<li style="text-align:center;"><a href="./law"><strong>法律声明</strong></a></li>
+					<li style="text-align:center;"><a href="./about"><strong>关于我们</strong></a></li>
+					<li style="text-align:center;"><a href="./join"><strong>加入我们</strong></a></li>
+					<li style="text-align:center;"><strong></strong></li>
+					<li style="text-align:center;"><strong></strong></li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>
