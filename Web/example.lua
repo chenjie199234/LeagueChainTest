@@ -1,6 +1,8 @@
 min_money=0
 script_name="test"
 function clear()
+	--clear function will be called by LEAGUE maintainer cycled,maybe once/day.
+	--you can do cycle things here,like clear the cache data in this script.
 end
 --above is a smallest script for chain
 --you need to define your own function
