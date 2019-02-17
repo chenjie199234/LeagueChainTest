@@ -22,11 +22,12 @@ BlockChain for League.This is a public test version for everyone to use and test
 * + Download this repo and cd into Server directory in linux system.
 * + `chmod` `chown` `chgrp` to set the access and the excutable flag for Server(The 'Server' in the Server directory)
 * + Run `./Server -h` to see the help.
-* + Set main.conf,the meaning of the config field you will get it blew.
+* + Set main.conf,the meaning of the config field you will get it below.
 * + Run `./Server -f new` to register as a new user after all these things are done.The Web server will recv your register require and sign for your pubkey,and now you are a new member in this league.
 * + If you want to run the Server,you must get the permission from the league.So maybe you need to post some document to the league in real life.But now,this is a test,you can just change it in database.open mariadb/mysql use web database,set the permission field in users table with 2;
 * + After the league access you to run the Server,your permission in this league become higher.
 * + Run `./Server -f start` to run a Peer server.
+* + At least 3 servers to start the whole system.
 * ## Config:in json format
 * + `Pullspeed`:This is used to pull old block data from other peers when you are join an exist system.This is depend on your computer and network.unit num/sec
 * + `Loglevel`:"Info"/"Warning"/"Error" this is used to tell the log module which log should be writed.
